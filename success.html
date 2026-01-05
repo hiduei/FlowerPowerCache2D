@@ -1,22 +1,139 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="2; url=https://app.gather.town/app/ZBuUWix5DVHt1LmK/InDerReuth166a" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Level geschafft!</title>
+  <title>🎉 Glückwunsch, Spürnase!</title>
+
+  <!-- Social Preview (optional, schadet nicht) -->
+  <meta property="og:title" content="Glückwunsch, Spürnase!" />
+  <meta property="og:description" content="Jetzt nur noch in Burpies schlagen – dann gibt’s das Siegerbier 🌻💪🧩!" />
+  <meta property="og:type" content="website" />
+  <!-- Falls du ein Vorschaubild hast: -->
+  <!-- <meta property="og:image" content="https://hiduei.github.io/FlowerPowerCache2D/assets/preview.png" /> -->
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #0c1022; color: #e9ecf1; display: grid; place-items: center; height: 100vh; margin: 0; }
-    .box { text-align: center; }
-    .box h1 { font-size: 28px; margin-bottom: 10px; }
-    .box p { color: #9fb0ff; }
+    :root {
+      --bg1: #17092f;   /* dunkel */
+      --bg2: #5a1ab1;   /* violett */
+      --bg3: #ff6a88;   /* warmes Pink */
+      --card: rgba(20, 25, 54, 0.75);
+      --card-border: rgba(255,255,255,0.18);
+      --text: #f6f7fb;
+      --accent: #ffd84d;
+      --accent2: #66ffc2;
+    }
+
+    /* Farbiger, animierter Hintergrund */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 80% 10%, var(--bg3) 0%, transparent 60%),
+        radial-gradient(800px 800px at 15% 80%, var(--bg2) 0%, transparent 55%),
+        linear-gradient(135deg, var(--bg1), #0e0a1f 60%);
+    }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    .hero {
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 60px);
+      margin: 0 0 6px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 2.8vw, 22px);
+      color: #d0d6ff;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: clamp(16px, 3.5vw, 26px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      backdrop-filter: saturate(130%) blur(2px);
+    }
+
+    .msg {
+      font-size: clamp(18px, 3.2vw, 24px);
+      line-height: 1.55;
+    }
+
+    .emojis {
+      font-size: clamp(24px, 4.5vw, 40px);
+      display: inline-block;
+      margin-left: 6px;
+    }
+
+    .cta {
+      margin-top: 22px;
+      display: inline-block;
+      background: var(--accent);
+      color: #1a1733;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    .cta:hover { filter: brightness(1.05); }
+
+    /* kleine Deko-Konfettis */
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image:
+        radial-gradient(circle at 10% 20%, #66ffc2 2px, transparent 3px),
+        radial-gradient(circle at 20% 80%, #ffd84d 2px, transparent 3px),
+        radial-gradient(circle at 90% 35%, #9fb0ff 2px, transparent 3px),
+        radial-gradient(circle at 55% 55%, #ff8aa4 2px, transparent 3px);
+      background-size: 140px 140px, 160px 160px, 180px 180px, 200px 200px;
+      mix-blend-mode: screen;
+    }
+
+    /* Barrierearme Bewegungsreduktion */
+    @media (prefers-reduced-motion: reduce) {
+      .confetti { background-size: 140px 140px; }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>🎉 Stufe gemeistert!</h1>
-    <p>Du wirst gleich zu unserem Gather‑Town‑Ort begleitet …</p>
-    <p><small>Falls es nicht automatisch weitergeht, klicke https://app.gather.town/app/ZBuUWix5DVHt1LmK/InDerReuth166ahier</a>.</small></p>
+  <div class="confetti" aria-hidden="true"></div>
+
+  <div class="wrap hero">
+    <h1>🎉 Glückwunsch, Spürnase!</h1>
+    <p class="subtitle">Du hast die richtige Spur gefunden.</p>
+
+    <div class="card" role="region" aria-label="Gratulation">
+      <p class="msg">
+        <strong>Glückwunsch Spürnase!</strong>
+        Jetzt musst du mich nur noch in <em>Burpies</em> schlagen,
+        dann bekommst du dein wohlverdientes Siegerbier
+        <span class="emojis">🌻💪🧩</span>!!
+      </p>
+
+      <!-- Optionaler Button (z.B. zurück zur Gruppe oder zu einem nächsten Schritt) -->
+      <!-- <a class="cta->
+    </div>
   </div>
 </body>
 </html>
