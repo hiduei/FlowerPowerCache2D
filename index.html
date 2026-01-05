@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Level 1 · Die Spur beginnt</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #0c1022; color: #e9ecf1; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; }
+    h1 { margin: 16px 0 10px; font-size: 28px; }
+    .card { background: #141936; border: 1px solid #2a2f55; border-radius: 14px; padding: 20px; }
+    .hint { color: #9fb0ff; font-size: 14px; }
+    .riddle { margin-top: 14px; font-size: 18px; line-height: 1.5; }
+    .input-row { margin-top: 18px; display: flex; gap: 10px; }
+    input[type="text"] { flex: 1; padding: 12px 14px; font-size: 18px; border-radius: 10px; border: 1px solid #39407a; background: #0f1430; color: #e9ecf1; }
+    button { padding: 12px 16px; font-size: 16px; border-radius: 10px; border: 0; background: #5663ff; color: #fff; cursor: pointer; }
+    button:hover { background: #4454ff; }
+    .error { margin-top: 10px; color: #ff8aa4; min-height: 1.3em; }
+    .success { display: none; margin-top: 18px; color: #8affc1; }
+    .footer { margin-top: 30px; font-size: 12px; color: #7f86a8; }
+    code { background: #0f1430; padding: 2px 6px; border-radius: 6px; border: 1px solid #2a2f55; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🔎 Willkommen, Spürnasen!</h1>
+    <div class="card">
+      <p class="hint">Hinweis: Das Passwort ist <strong>genau die Emoji‑Reihenfolge im Namen eurer WhatsApp‑Gruppe</strong>.</p>
+      <div class="riddle">
+        <strong>Rätsel:</strong> „Ich bin überall und doch unsichtbar, ich verbinde, ohne Knoten zu machen.
+        Suche mich im Namen, nicht in der Nachricht. In Zeichen, die mehr als Worte sagen.“
+        <br /><br />
+        👉 Gib das Passwort als <strong>Emojis</strong> ein (z. B. <code>🌻💪🧩</code>).
+      </div>
+
+      <div class="input-row">
+        <input id="pwd" type="text" placeholder="Emoji‑Passwort hier eingeben …" inputmode="text" autocomplete="off" />
+        <button id="go">Prüfen</button>
+      </div>
+      <div id="msg" class="error" role="status" aria-live="polite"></div>
+      <div id="done" class="success">✅ Richtig! Weiter geht’s …</div>
+    </div>
+
+    <div class="footer">
+      Tipp: Die Emojis müssen <strong>exakt</strong> übereinstimmen (Reihenfolge + Variante). Nutzt einfache Varianten (kein Hautton).
+    </div>
+  </div>
+
+  <script>
+    // ===== KONFIGURATION =====
+    const EXPECTED_HASH = "9d402a6be39f7708d8ba4c6c285f99953ae1fc1b1c73b3153c68ce5facd25c90";
+    const SUCCESS_PAGE = "success.html";
+
+    // Normalisierung: Entferne Variation Selector-16 und ZWJ, trimme Whitespace
+    const normalizeEmoji = (s) =>
+      s.trim().replace(/\uFE0F/g, "").replace(/\u200D/g, "");
+
+    async function sha256Hex(text) {
+      const enc = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const msgEl = document.getElementById("msg");
+    const doneEl = document.getElementById("done");
+    const input = document.getElementById("pwd");
+    const goBtn = document.getElementById("go");
+
+    async function check() {
+      const val = normalizeEmoji(input.value);
+      if (!val) { msgEl.textContent = "Bitte gib das Emoji‑Passwort ein."; return; }
+      const hash = await sha256Hex(val);
+      if (hash === EXPECTED_HASH) {
+        msgEl.textContent = "";
+        doneEl.style.display = "block";
+        setTimeout(() => (window.location.href = SUCCESS_PAGE), 900);
+      } else {
+        msgEl.textContent = "Leider falsch. Tipp: Exakte Reihenfolge & Varianten beachten!";
+        doneEl.style.display = "none";
+      }
+    }
+
+    goBtn.addEventListener("click", () => { check(); });
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
+  </script>
+</body>
+</html>
